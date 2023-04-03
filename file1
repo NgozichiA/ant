@@ -1,16 +1,18 @@
-pipeline {
-  agent any
-  stages {
-    stage('Log Ant version info') {
-      steps {
-        sh 'ant -version'
-      }
-    }
-    stage('GitHub Jenkins Ant Build') {
-      steps {
-        git 'https://github.com/learn-devops-fast/rps-ant.git'
-        sh 'ant clean compile test package war'
-      }
-    }
-  }
-}
+<target name="junit" depends="compile">
+
+    <junit printsummary="yes" haltonfailure="no">
+
+	<!-- Project classpath, must include junit.jar -->
+	<classpath refid="test.path" />
+		
+	<!-- test class -->
+	<classpath location="${test.classes.dir}" />
+		
+	<test name="com.mkyong.test.TestMessage" 
+		haltonfailure="no" todir="${report.dir}">
+		<formatter type="plain" />
+		<formatter type="xml" />
+	</test>
+		
+  </junit>
+</target>
